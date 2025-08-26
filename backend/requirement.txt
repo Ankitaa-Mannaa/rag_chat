@@ -1,0 +1,36 @@
+backend/
+│── manage.py
+│── requirements.txt
+│── backend/                # Django project
+│   │── __init__.py
+│   │── settings.py
+│   │── urls.py
+│   │── wsgi.py
+│
+├── authapp/                # User auth
+│   ├── models.py
+│   ├── serializers.py
+│   ├── views.py
+│   ├── urls.py
+│
+├── documents/              # Document upload & embeddings
+│   ├── models.py
+│   ├── serializers.py
+│   ├── views.py
+│   ├── urls.py
+│   └── utils.py
+│
+├── search/                 # Vector search
+│   ├── views.py
+│   ├── urls.py
+│   └── utils.py
+│
+├── answer/                 # AI answer
+│   ├── views.py
+│   ├── urls.py
+│   └── utils.py
+│
+└── usage/                  # Usage tracking
+    ├── models.py
+    ├── views.py
+    ├── urls.py
