@@ -1,13 +1,13 @@
 backend/
 │── manage.py
 │── requirements.txt
-│── backend/                # Django project
+│── django_backend/                # Django project
 │   │── __init__.py
 │   │── settings.py
 │   │── urls.py
 │   │── wsgi.py
 │
-├── authapp/                # User auth
+├── authapp/                # User authapp
 │   ├── models.py
 │   ├── serializers.py
 │   ├── views.py
