@@ -1,12 +1,11 @@
-import requests
+import requests, json
 from django.conf import settings
-from typing import Tuple, List
+from typing import Generator, List
 from search.utils import search_similar
 
-def generate_answer(query: str) -> Tuple[str, List[int]]:
+def generate_answer_stream(query: str) -> Generator[str, None, None]:
     context = search_similar(query, top_k=3)
     context_text = "\n\n".join([c for _, _, c, _ in context])
-    source_doc_ids = list({d for _, d, _, _ in context})
 
     prompt = (
         "You are a helpful assistant. Use ONLY the following context to answer the question.\n"
@@ -18,9 +17,8 @@ def generate_answer(query: str) -> Tuple[str, List[int]]:
 
     api_key = settings.OPENROUTER_API_KEY or ""
     if not api_key:
-        # Fallback (no external call)
-        return ("[DEV MODE] OPENROUTER_API_KEY not set. "
-                "Cannot call model. Context snippets returned above.", source_doc_ids)
+        yield "[DEV MODE] OPENROUTER_API_KEY not set. Cannot call model."
+        return
 
     try:
         resp = requests.post(
@@ -29,12 +27,26 @@ def generate_answer(query: str) -> Tuple[str, List[int]]:
             json={
                 "model": "openai/gpt-4o-mini",
                 "messages": [{"role": "user", "content": prompt}],
+                "stream": True,
             },
+            stream=True,
             timeout=60,
         )
-        data = resp.json()
-        content = data["choices"][0]["message"]["content"]
-        return content, source_doc_ids
+
+        for line in resp.iter_lines():
+            if not line:
+                continue
+            if line.startswith(b"data: "):
+                payload = line.decode("utf-8")[6:]
+                if payload.strip() == "[DONE]":
+                    break
+                try:
+                    data = json.loads(payload)
+                    delta = data["choices"][0]["delta"].get("content", "")
+                    if delta:
+                        yield delta
+                except Exception:
+                    continue
+
     except Exception as e:
-        return (f"[FALLBACK] Answer generation failed: {e}. "
-                "Returning top context snippets instead.\n\n" + context_text, source_doc_ids)
+        yield f"[FALLBACK] Streaming failed: {e}. Context:\n{context_text}"

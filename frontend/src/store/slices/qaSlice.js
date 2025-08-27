@@ -34,7 +34,7 @@ const slice = createSlice({
   },
   extraReducers: (b) => {
     b.addCase(searchThunk.pending, (s)=>{ s.loading=true; s.error=""; s.results=[]; });
-    b.addCase(searchThunk.fulfilled, (s,a)=>{ s.loading=false; s.results=a.payload || []; });
+    b.addCase(searchThunk.fulfilled, (s,a)=>{ s.loading = false; s.results = a.payload?.results || []; });
     b.addCase(searchThunk.rejected, (s,a)=>{ s.loading=false; s.error=a.payload; });
 
     b.addCase(answerThunk.pending, (s)=>{ s.loading=true; s.error=""; s.answer=""; s.sources=[]; });
