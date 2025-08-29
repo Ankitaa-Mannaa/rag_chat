@@ -3,7 +3,6 @@ import { setQuery, searchThunk } from "../store/slices/qaSlice";
 import { useState } from "react";
 import { SearchCheck, FileText, Zap } from "lucide-react";
 
-
 export default function Search() {
   const dispatch = useDispatch();
   const { query, results, loading, error } = useSelector((s)=>s.qa);

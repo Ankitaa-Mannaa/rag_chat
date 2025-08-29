@@ -1,4 +1,3 @@
-// src/pages/Dashboard.jsx
 import { Link } from "react-router-dom";
 import docBg from "../assets/document card.jpg";
 import searchBg from "../assets/search card.jpg";

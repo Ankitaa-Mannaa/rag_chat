@@ -75,13 +75,14 @@ REST_FRAMEWORK = {
     ),
     "DEFAULT_THROTTLE_CLASSES": [
         "rest_framework.throttling.UserRateThrottle",
+        "usage.throttles.DailyQuestionThrottle",  
     ],
     "DEFAULT_THROTTLE_RATES": {
-        "user": "100/day",  
+        "user": "100/day",
+        "question": "100/day",
     },
 }
 
-# JWT settings (default lifetimes are fine; override if needed)
 CORS_ALLOW_ALL_ORIGINS = True
 
 STATIC_URL = "static/"

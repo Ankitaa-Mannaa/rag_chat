@@ -1,4 +1,3 @@
-// src/pages/LandingPage.jsx
 import { useEffect, useState } from "react";
 import Lottie from "lottie-react";
 import botAnimation from "../assets/Cloud robotics abstract.json";

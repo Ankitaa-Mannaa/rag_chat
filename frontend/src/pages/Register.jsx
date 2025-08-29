@@ -2,27 +2,26 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { registerThunk } from "../store/slices/authSlice";
 import { Link, useNavigate } from "react-router-dom";
-import bgImage from "../assets/register bg.jpg"; // ✅ put your image inside /src/assets
+import bgImage from "../assets/register bg.jpg"; 
 
 export default function Register() {
   const dispatch = useDispatch();
   const nav = useNavigate();
   const { loading, error } = useSelector((s) => s.auth);
 
-  const [form, setForm] = useState({ name: "", email: "", password: "" });
+  const [form, setForm] = useState({ username: "", email: "", password: "" });
   const [localError, setLocalError] = useState("");
 
   const submit = async (e) => {
     e.preventDefault();
     const res = await dispatch(registerThunk(form));
     if (res.meta.requestStatus === "fulfilled") {
-      nav("/login"); // ✅ redirect on success
+      nav("/login"); 
     } else {
       setLocalError(error || "Registration failed");
     }
   };
 
-  // ✅ Clear error after 4 seconds
   useEffect(() => {
     if (localError) {
       const timer = setTimeout(() => setLocalError(""), 4000);
@@ -76,10 +75,11 @@ export default function Register() {
                 Full Name
               </label>
               <input
-                className="w-full px-3 py-2 text-sm bg-white/70 border border-white/60 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400 backdrop-blur-sm placeholder-gray-500"
-                placeholder="Enter your full name"
-                value={form.name}
-                onChange={e=>setForm({...form, name:e.target.value})}
+                className="w-full px-3 py-2 text-sm bg-white/70 border border-white/60 rounded-lg
+                          focus:outline-none focus:ring-2 focus:ring-purple-400 backdrop-blur-sm placeholder-gray-500"
+                placeholder="Your full Name"
+                value={form.username}
+                onChange={e=>setForm({...form, username:e.target.value})}
               />
             </div>
 
@@ -109,11 +109,23 @@ export default function Register() {
               />
             </div>
 
-            {localError && (
-              <div className="p-3 bg-red-50/80 border border-red-200 rounded-lg backdrop-blur-sm">
-                <p className="text-xs text-red-700">{localError}</p>
-              </div>
-            )}
+            {error && (
+  <div className="p-3 bg-red-50/80 border border-red-200 rounded-lg backdrop-blur-sm">
+    {typeof error === "object" ? (
+      <ul className="text-xs text-red-700 space-y-1">
+        {Object.entries(error).map(([field, msgs]) =>
+          msgs.map((m, i) => (
+            <li key={field + i}>
+              {field}: {m}
+            </li>
+          ))
+        )}
+      </ul>
+    ) : (
+      <p className="text-xs text-red-700">{error}</p>
+    )}
+  </div>
+)}
 
             <button
               disabled={loading}

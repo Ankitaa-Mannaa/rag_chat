@@ -5,7 +5,6 @@ from django.db import transaction
 from .models import Embedding
 from documents.models import Document
 
-# Load once
 _model = SentenceTransformer("all-MiniLM-L6-v2")
 
 def _chunk_text(text: str, chunk_size: int = 200, overlap: int = 50) -> List[str]:

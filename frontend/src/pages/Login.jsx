@@ -23,7 +23,6 @@ export default function Login() {
     }
   };
 
-  // ✅ Clear error after 3 seconds
   useEffect(() => {
     if (localError) {
       const timer = setTimeout(() => setLocalError(""), 3000);
@@ -80,10 +79,22 @@ export default function Login() {
               />
             </div>
             {localError && (
-              <div className="p-3 bg-red-50/80 border border-red-200 rounded-lg backdrop-blur-sm">
-                <p className="text-xs text-red-700">{localError}</p>
-              </div>
-            )}
+  <div className="p-3 bg-red-50/80 border border-red-200 rounded-lg backdrop-blur-sm">
+    {typeof localError === "object" ? (
+      <ul className="text-xs text-red-700 space-y-1">
+        {Object.entries(localError).map(([field, msgs], idx) =>
+          Array.isArray(msgs) ? (
+            msgs.map((m, i) => <li key={field + i}>{field}: {m}</li>)
+          ) : (
+            <li key={idx}>{msgs}</li>
+          )
+        )}
+      </ul>
+    ) : (
+      <p className="text-xs text-red-700">{localError}</p>
+    )}
+  </div>
+)}
             <button
               disabled={loading}
               className="w-full py-3 text-sm bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 disabled:from-gray-400 disabled:to-gray-500 text-white font-bold rounded-lg shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200 disabled:cursor-not-allowed"

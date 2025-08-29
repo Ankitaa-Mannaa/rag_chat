@@ -19,14 +19,17 @@ export const loginThunk = createAsyncThunk("auth/login", async (payload, { rejec
   }
 });
 
-export const registerThunk = createAsyncThunk("auth/register", async (payload, { rejectWithValue }) => {
-  try {
-    const { data } = await api.post("/api/authapp/register/", payload);
-    return data;
-  } catch (e) {
-    return rejectWithValue(e.response?.data?.msg || "Registration failed");
+export const registerThunk = createAsyncThunk(
+  "auth/register",
+  async (payload, { rejectWithValue }) => {
+    try {
+      const { data } = await api.post("/api/authapp/register/", payload);
+      return data;
+    } catch (e) {
+      return rejectWithValue(e.response?.data || { detail: "Registration failed" });
+    }
   }
-});
+);
 
 const slice = createSlice({
   name: "auth",
