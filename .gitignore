@@ -11,3 +11,5 @@ __pycache__/
 # Ignore all cache folders (generic)
 *.cache/
 .cache/
+
+venv/
