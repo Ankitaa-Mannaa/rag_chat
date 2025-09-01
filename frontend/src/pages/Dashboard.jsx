@@ -4,7 +4,7 @@ import searchBg from "../assets/search card.jpg";
 import askBg from "../assets/ask card.jpg";
 import usageBg from "../assets/track card.jpg";
 
-const pages = [
+const pages = [ 
   { 
     title: "Documents", 
     desc: "Upload and manage your documents. There's no limit of uploading you can upload anytime anywhere you want and out Reasonbot platfrom will store and save the text indexes in our databases, so that anytime you can access our features without uploading again.", 
