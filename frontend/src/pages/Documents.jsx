@@ -38,7 +38,7 @@ export default function Documents() {
   };
 
   return (
-    <div className="min-h-screen p-4">
+    <div className="h-auto p-4">
       <div className="max-w-7xl mx-auto">
         
         {/* Header */}
