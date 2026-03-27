@@ -1,0 +1,13 @@
+__pycache__/
+
+backend/.env 
+
+# Ignore all env files in all folders
+*.env
+
+# Ignore all __pycache__ folders 
+__pycache__/
+
+# Ignore all cache folders (generic)
+*.cache/
+.cache/
